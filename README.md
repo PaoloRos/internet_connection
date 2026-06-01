@@ -1,6 +1,6 @@
 # Internet Connection
 
-A small macOS desktop application (Qt Widgets + C++) that continuously checks whether the computer can reach the internet and shows the result with a simple visual status.
+A small **macOS desktop application** (Qt Widgets + C++) that continuously checks whether the computer can reach the internet and shows the result with a simple visual status.
 
 ## Purpose
 - Provide an immediate **Connected / Not connected** view.
