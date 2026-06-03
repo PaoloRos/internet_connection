@@ -2,6 +2,8 @@
 
 A small **macOS desktop application** (Qt Widgets + C++) that continuously checks whether the computer can reach the internet and shows the result with a simple visual status.
 
+The idea came from the fact that the internet connection at my university does not always work properly on my computer. Therefore, I decided to quickly develop a tool to easily and frequently monitor my connection.
+
 ## Purpose
 - Provide an immediate **Connected / Not connected** view.
 - Keep checks periodic and lightweight.
@@ -46,6 +48,6 @@ cmake --install build --prefix "$HOME/usr/local"
 ```
 
 ## Credits
-- Project idea and requirements: **you**.
+- Project idea and requirements: [**PaoloRos**](https://github.com/PaoloRos).
 - Architecture and implementation: **Codex assistant**.
 - AI model used in this environment: **Codex (GPT-5 family)**.
