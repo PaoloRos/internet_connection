@@ -1,8 +1,10 @@
 #pragma once
 
 #include "ConnectivityChecker.h"
+#include "NetworkTrafficMonitor.h"
 
 #include <QMainWindow>
+#include <optional>
 
 class QLabel;
 class QTimer;
@@ -29,17 +31,25 @@ private slots:
     void refreshStatus();
     /** @brief Consume checker results and update the GUI. */
     void onCheckFinished(const ConnectivityStatus& status);
+    /** @brief Consume traffic samples and update throughput values. */
+    void onTrafficSampleFinished(const NetworkTrafficStatus& status);
 
 private:
     /** @brief Build and wire all visible UI elements. */
     void buildUi();
     /** @brief Update the status indicator color for connected/disconnected states. */
     void updateIndicator(bool connected);
+    /** @brief Format a byte-per-second rate using compact binary units. */
+    QString formatTransferRate(const std::optional<double>& bytesPerSecond) const;
 
     /** @brief Connectivity service handling asynchronous probes. */
     ConnectivityChecker m_checker;
-    /** @brief Periodic trigger timer for check scheduling. */
+    /** @brief Traffic service sampling network interface counters. */
+    NetworkTrafficMonitor m_trafficMonitor;
+    /** @brief Periodic trigger timer for connectivity check scheduling. */
     QTimer* m_timer;
+    /** @brief Periodic trigger timer for traffic sampling. */
+    QTimer* m_trafficTimer;
 
     /** @brief Colored circular status indicator (green/red). */
     QLabel* m_indicator;
@@ -49,6 +59,18 @@ private:
     QLabel* m_methodValue;
     /** @brief Diagnostics: measured latency for last check. */
     QLabel* m_latencyValue;
+    /** @brief Diagnostics: current observed download rate. */
+    QLabel* m_downloadCurrentValue;
+    /** @brief Diagnostics: rolling mean download rate. */
+    QLabel* m_downloadMeanValue;
+    /** @brief Diagnostics: rolling standard deviation download rate. */
+    QLabel* m_downloadStdDevValue;
+    /** @brief Diagnostics: current observed upload rate. */
+    QLabel* m_uploadCurrentValue;
+    /** @brief Diagnostics: rolling mean upload rate. */
+    QLabel* m_uploadMeanValue;
+    /** @brief Diagnostics: rolling standard deviation upload rate. */
+    QLabel* m_uploadStdDevValue;
     /** @brief Diagnostics: last error details, if any. */
     QLabel* m_errorValue;
     /** @brief Diagnostics: timestamp of last completed check. */
@@ -56,4 +78,6 @@ private:
 
     /** @brief Refresh period in milliseconds. */
     static constexpr int kRefreshMs = 500;
+    /** @brief Throughput sampling period in milliseconds. */
+    static constexpr int kTrafficSampleMs = 1000;
 };

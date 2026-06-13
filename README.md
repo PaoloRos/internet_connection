@@ -7,23 +7,34 @@ The idea came from the fact that the internet connection at my university does n
 ## Purpose
 - Provide an immediate **Connected / Not connected** view.
 - Keep checks periodic and lightweight.
+- Show current observed **download / upload throughput**.
 - Show concise diagnostics for quick troubleshooting.
 
 ## Architecture Summary
 - **UI layer (`MainWindow`)**: renders status indicator and diagnostics.
 - **Service layer (`ConnectivityChecker`)**: runs asynchronous checks and emits normalized status objects.
+- **Traffic layer (`NetworkTrafficMonitor`)**: samples network interface counters and computes rolling throughput statistics.
 - **Check strategy**:
   - Primary: HTTP `HEAD` probe to Apple captive-portal endpoint.
   - Fallback: ICMP `ping` with timeout.
 
 ## Runtime Behavior
-- Refresh interval: **500 ms**.
+- Connectivity refresh interval: **500 ms**.
+- Throughput sampling interval: **1 s**.
+- Throughput statistics window: **20 samples**.
 - Non-overlapping check cycles (no request piling).
 - Diagnostics shown in UI:
   - method used
   - latency (when available)
+  - current observed download and upload rates from active non-loopback network interfaces
+  - rolling mean and standard deviation for download and upload rates
   - last error
   - last check timestamp
+
+The transfer-rate values are live interface throughput measurements. They show
+how much data the Mac is currently receiving and sending; they are intentionally
+not a heavy external speed-test benchmark. Rolling statistics are shown as `-`
+until the full 20-sample window is available.
 
 ## Build
 ```bash

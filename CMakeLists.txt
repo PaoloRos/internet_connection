@@ -23,6 +23,8 @@ add_executable(internet_connection
     src/MainWindow.cpp
     src/ConnectivityChecker.h
     src/ConnectivityChecker.cpp
+    src/NetworkTrafficMonitor.h
+    src/NetworkTrafficMonitor.cpp
 )
 
 target_link_libraries(internet_connection PRIVATE

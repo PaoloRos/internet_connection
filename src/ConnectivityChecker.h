@@ -100,7 +100,6 @@ private:
     QPointer<QProcess> m_activePing;
     /** @brief True while a check cycle is running. */
     bool m_checkInProgress = false;
-
     /** @brief HTTP probe timeout in milliseconds. */
     static constexpr int kHttpTimeoutMs = 1200;
     /** @brief Ping fallback timeout in milliseconds. */
